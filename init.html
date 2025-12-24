@@ -1,12 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    |ajfeoirjfald
-  </body>
+<html>
+<head>
+    <title>Teachable Machine Pose Game</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        #model-url-input {
+            width: 400px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        #start-button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Teachable Machine Pose Game</h1>
+    <input type="text" id="model-url-input" placeholder="Enter your Teachable Machine model URL">
+    <button id="start-button">Start Game</button>
+
+    <script>
+        document.getElementById('start-button').addEventListener('click', () => {
+            const modelUrl = document.getElementById('model-url-input').value;
+            if (modelUrl) {
+                window.location.href = `game.html?modelUrl=${encodeURIComponent(modelUrl)}`;
+            } else {
+                alert('Please enter a model URL.');
+            }
+        });
+    </script>
+</body>
 </html>
