@@ -1,0 +1,138 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+#container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#game-info {
+    display: flex;
+    justify-content: space-between;
+    width: 640px;
+    margin-bottom: 10px;
+}
+
+#webcam-container {
+    position: relative;
+    width: 640px;
+    height: 480px;
+}
+
+#webcam,
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#label-container {
+    margin-top: 10px;
+}
+
+#selected-label-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#probability-bar {
+    width: 0;
+    height: 20px;
+    background-color: green;
+}
+
+#model-url-input {
+    width: 400px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+#start-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#score-container {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+
+
+#play-again-button {
+
+    padding: 10px 20px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+}
+
+
+
+#capture-container {
+
+    position: absolute;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100%;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.5);
+
+}
+
+
+
+#captured-image {
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: contain;
+
+    transition: transform 0.5s ease-in-out;
+
+    transform: scale(1);
+
+}
+
+
+
+#captured-image.zoom {
+
+    transform: scale(2);
+
+}
+
+
+
+.hidden {
+
+    display: none;
+
+}

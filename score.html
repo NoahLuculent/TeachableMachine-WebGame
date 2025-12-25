@@ -2,24 +2,7 @@
 <html>
 <head>
     <title>Score</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            flex-direction: column;
-        }
-        #score-container {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        #play-again-button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="src/main.css">
 </head>
 <body>
     <h1>Game Over</h1>
@@ -28,14 +11,6 @@
     </div>
     <button id="play-again-button">Play Again</button>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const score = urlParams.get('score');
-        document.getElementById('score').innerText = parseFloat(score).toFixed(1);
-
-        document.getElementById('play-again-button').addEventListener('click', () => {
-            window.location.href = 'init.html';
-        });
-    </script>
+    <script src="src/main.js"></script>
 </body>
 </html>
