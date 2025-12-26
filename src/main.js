@@ -1,7 +1,6 @@
 const page = window.location.pathname;
 
 if (page.includes("game.html")) {
-    // More code will go here
     const URL_PARAM = new URLSearchParams(window.location.search);
     const MODEL_URL = URL_PARAM.get('modelUrl');
 
@@ -11,6 +10,7 @@ if (page.includes("game.html")) {
     let labels = [];
     let selectedLabelName = null;
     let completedLabels = [];
+    let capturedPoses = []; // ADDED: To store captures
 
     const scoreElement = document.getElementById('score');
     const timerElement = document.getElementById('timer');
@@ -115,8 +115,15 @@ if (page.includes("game.html")) {
                     isPaused = true;
                     score++;
                     scoreElement.innerText = `Score: ${score}`;
+
+                    // MODIFIED: Store capture data
+                    const captureDataUrl = webcam.canvas.toDataURL();
+                    capturedPoses.push({
+                        image: captureDataUrl,
+                        label: selectedLabelName
+                    });
                     
-                    capturedImage.src = webcam.canvas.toDataURL();
+                    capturedImage.src = captureDataUrl;
                     captureContainer.classList.remove('hidden');
                     
                     setTimeout(() => {
@@ -156,15 +163,23 @@ if (page.includes("game.html")) {
         }
     }
 
+    // MODIFIED: Use sessionStorage
     function endGame() {
         const bonus = Math.floor(timeLeft / 10) * 0.1;
         const finalScore = score + bonus;
-        window.location.href = `score.html?score=${finalScore}`;
+        
+        sessionStorage.setItem('finalScore', finalScore);
+        sessionStorage.setItem('capturedPoses', JSON.stringify(capturedPoses));
+
+        window.location.href = `score.html`;
     }
 
     init();
+
 } else if (page.includes("init.html")) {
+    // MODIFIED: Clear sessionStorage
     document.getElementById('start-button').addEventListener('click', () => {
+        sessionStorage.clear(); 
         const modelUrl = document.getElementById('model-url-input').value;
         if (modelUrl) {
             window.location.href = `game.html?modelUrl=${encodeURIComponent(modelUrl)}`;
@@ -172,12 +187,34 @@ if (page.includes("game.html")) {
             alert('Please enter a model URL.');
         }
     });
+
 } else if (page.includes("score.html")) {
-    const urlParams = new URLSearchParams(window.location.search);
-    const score = urlParams.get('score');
+    // MODIFIED: Read from sessionStorage and display images
+    const score = sessionStorage.getItem('finalScore');
+    const capturedPoses = JSON.parse(sessionStorage.getItem('capturedPoses'));
+
     document.getElementById('score').innerText = parseFloat(score).toFixed(1);
 
+    const container = document.getElementById('captured-poses-container');
+    if (capturedPoses && capturedPoses.length > 0) {
+        capturedPoses.forEach(pose => {
+            const poseDiv = document.createElement('div');
+            poseDiv.className = 'pose-item';
+
+            const img = document.createElement('img');
+            img.src = pose.image;
+
+            const label = document.createElement('p');
+            label.innerText = pose.label;
+
+            poseDiv.appendChild(img);
+            poseDiv.appendChild(label);
+            container.appendChild(poseDiv);
+        });
+    }
+
     document.getElementById('play-again-button').addEventListener('click', () => {
+        sessionStorage.clear();
         window.location.href = 'init.html';
     });
 }
